@@ -66,11 +66,12 @@ class Curl implements HttpInterface
         curl_setopt($this->handle, CURLOPT_FAILONERROR, true);
         $result = curl_exec($this->handle);
         $this->statusCode = curl_getinfo($this->handle, CURLINFO_HTTP_CODE);
-        curl_close($this->handle);
 
         if (false === $result) {
-            throw new HttpExecuteException("Execute http request is failed");
+            throw new HttpExecuteException(curl_error($this->handle));
         }
+
+        curl_close($this->handle);
 
         return $result;
     }

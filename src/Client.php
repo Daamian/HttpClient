@@ -4,11 +4,15 @@ namespace Daamian\HttpClient;
 
 use Daamian\HttpClient\Authorization\AuthorizationInterface;
 use Daamian\HttpClient\Authorization\NullAuthorization;
+use Daamian\HttpClient\Exception\ClientException;
+use Daamian\HttpClient\Exception\HttpExecuteException;
+use Daamian\HttpClient\Exception\RequestException;
 use Daamian\HttpClient\Http\HttpInterface;
+use Daamian\HttpClient\Request\RequestChecker;
+use Nyholm\Psr7\Response;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Nyholm\Psr7\Response;
 
 class Client implements ClientInterface
 {
@@ -17,9 +21,12 @@ class Client implements ClientInterface
 
     private AuthorizationInterface $authorization;
 
-    public function __construct(HttpInterface $http)
+    private RequestChecker $requestChecker;
+
+    public function __construct(HttpInterface $http, RequestChecker $requestChecker)
     {
         $this->http = $http;
+        $this->requestChecker = $requestChecker;
         $this->authorization = new NullAuthorization();
     }
 
@@ -30,17 +37,33 @@ class Client implements ClientInterface
 
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
+        if (false === $this->requestChecker->check($request)) {
+            throw new RequestException($request, $this->requestChecker->getMessage());
+        }
+
+        $this->buildHttp($request);
+
+        try {
+            $result = $this->http->execute();
+        } catch (HttpExecuteException $exception) {
+            throw new ClientException($exception->getMessage());
+        }
+
+        return new Response($this->http->getStatusCode(), [], $result);
+    }
+
+
+    private function buildHttp(RequestInterface $request): HttpInterface
+    {
         $this->http->setUrl($request->getUri())
             ->setMethod($request->getMethod())
             ->setBody($request->getBody()->__toString());
 
         $this->initHeaders($request->getHeaders());
         $this->authorization->auth($this->http);
-        $result = $this->http->execute();
 
-        return new Response($this->http->getStatusCode(), [], $result);
+        return $this->http;
     }
-
 
     private function initHeaders(array $headers): void
     {

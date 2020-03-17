@@ -1,8 +1,8 @@
 <?php
 
-use Daamian\HttpClient\Client;
-use Nyholm\Psr7\Request;
 use Daamian\HttpClient\Authorization\BasicAuthorization;
+use Daamian\HttpClient\ClientFactory;
+use Nyholm\Psr7\Request;
 
 require_once "vendor/autoload.php";
 
@@ -13,6 +13,11 @@ $request = new Request(
     json_encode(['title' => 'test5555'])
 );
 
-$client = new Client(new \Daamian\HttpClient\Http\Curl());
+/*$request = new Request(
+    '',
+    ''
+);*/
+
+$client = ClientFactory::create();
 $client->setAuthorization(new BasicAuthorization('user', 'password'));
 var_dump($client->sendRequest($request)->getBody()->__toString());
