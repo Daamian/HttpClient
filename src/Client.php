@@ -2,6 +2,8 @@
 
 namespace Daamian\HttpClient;
 
+use Daamian\HttpClient\Authorization\AuthorizationInterface;
+use Daamian\HttpClient\Authorization\NullAuthorization;
 use Daamian\HttpClient\Http\Curl;
 use Daamian\HttpClient\Http\HttpInterface;
 use Psr\Http\Client\ClientInterface;
@@ -14,34 +16,40 @@ class Client implements ClientInterface
 
     private HttpInterface $http;
 
+    private AuthorizationInterface $authorization;
+
     public function __construct(HttpInterface $http)
     {
         $this->http = $http;
+        $this->authorization = new NullAuthorization();
+    }
+
+    public function setAuthorization(AuthorizationInterface $authorization): void
+    {
+        $this->authorization = $authorization;
     }
 
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
         $this->http->setUrl($request->getUri())
             ->setMethod($request->getMethod())
-            ->setBody($request->getBody()->__toString())
-            ->setHeaders($this->mapHeaders($request->getHeaders()));
+            ->setBody($request->getBody()->__toString());
 
+        $this->initHeaders($request->getHeaders());
+        $this->authorization->auth($this->http);
         $result = $this->http->execute();
 
         return new Response($this->http->getStatusCode(), [], $result);
     }
 
 
-    private function mapHeaders(array $headers): array
+    private function initHeaders(array $headers): void
     {
-        $mappedHeader = [];
         foreach ($headers as $header => $values) {
             foreach ($values as $value) {
-                $mappedHeader[] = $header.':'.$value;
+                $this->http->addHeader($header, $value);
             }
         }
-
-        return $mappedHeader;
     }
 
 }

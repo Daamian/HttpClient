@@ -2,6 +2,7 @@
 
 use Daamian\HttpClient\Client;
 use Nyholm\Psr7\Request;
+use Daamian\HttpClient\Authorization\BasicAuthorization;
 
 require_once "vendor/autoload.php";
 
@@ -13,4 +14,5 @@ $request = new Request(
 );
 
 $client = new Client(new \Daamian\HttpClient\Http\Curl());
+$client->setAuthorization(new BasicAuthorization('user', 'password'));
 var_dump($client->sendRequest($request)->getBody()->__toString());

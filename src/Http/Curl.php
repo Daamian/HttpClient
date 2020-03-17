@@ -9,6 +9,8 @@ class Curl implements HttpInterface
 
     private $handle = null;
 
+    private array $headers = [];
+
     private ?int $statusCode = null;
 
     public function __construct()
@@ -37,9 +39,9 @@ class Curl implements HttpInterface
         return $this;
     }
 
-    public function setHeaders(array $headers): HttpInterface
+    public function addHeader(string $name, string $value): HttpInterface
     {
-        curl_setopt($this->handle, CURLOPT_HTTPHEADER, $headers);
+        $this->headers[] = $name.':'.$value;
 
         return $this;
     }
@@ -49,11 +51,17 @@ class Curl implements HttpInterface
         return $this->statusCode;
     }
 
+    public function getHeaders(): array
+    {
+        return $this->headers;
+    }
+
     /**
      * @inheritDoc
      */
     public function execute(): string
     {
+        curl_setopt($this->handle, CURLOPT_HTTPHEADER, $this->headers);
         curl_setopt($this->handle, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->handle, CURLOPT_FAILONERROR, true);
         $result = curl_exec($this->handle);

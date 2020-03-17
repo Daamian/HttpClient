@@ -2,6 +2,8 @@
 
 namespace Daamian\HttpClient\Authorization;
 
+use Daamian\HttpClient\Http\HttpInterface;
+
 class BasicAuthorization implements AuthorizationInterface
 {
 
@@ -11,11 +13,13 @@ class BasicAuthorization implements AuthorizationInterface
 
     public function __construct(string $username, string $password)
     {
+        $this->username = $username;
+        $this->password = $password;
     }
 
-    public function auth(): void
+    public function auth(HttpInterface $http): void
     {
-        // TODO: Implement auth() method.
+        $http->addHeader('Authorization', 'Basic '.base64_encode("$this->username:$this->password"));
     }
 
 }

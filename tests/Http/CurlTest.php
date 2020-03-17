@@ -71,20 +71,20 @@ class CurlTest extends TestCase
         $this->assertSame($this->curl, $curlInstance);
     }
 
-    public function testShouldSetCurlOptHeaders(): void
+    public function testShouldSetCurlOptHeader(): void
     {
         //Given
-        $headers = ['HEADER' => 'HEADER_VALUE'];
+        $header = 'HEADER';
+        $value = 'HEADER_VALUE';
 
         //Expected
-        $curlInitMock = $this->getFunctionMock(__NAMESPACE__, "curl_setopt");
-        $curlInitMock->expects($this->once())->with($this->handle, CURLOPT_HTTPHEADER, $headers)->willReturn(null);
+        $headersExpected = ['HEADER:HEADER_VALUE'];
 
         //When
-        $curlInstance = $this->curl->setHeaders($headers);
+        $curlInstance = $this->curl->addHeader($header, $value);
 
         //Then
-        $this->assertSame($this->curl, $curlInstance);
+        $this->assertSame($headersExpected, $this->curl->getHeaders());
     }
 
     public function testShouldCurlExecute(): void

@@ -13,9 +13,9 @@ interface HttpInterface
 
     public function setBody(string $body): self;
 
-    public function setHeaders(array $headers): self;
-
     public function getStatusCode(): ?int;
+
+    public function addHeader(string $name, string $value): HttpInterface;
 
     /**
      * @throws HttpExecuteException When request failed
