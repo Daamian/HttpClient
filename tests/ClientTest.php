@@ -39,6 +39,11 @@ class ClientTest extends TestCase
             'Body'
         );
 
+        $this->requestCheckerMock->expects($this->once())
+            ->method('check')
+            ->with($request)
+            ->willReturn(true);
+
         $response = 'Response';
         $this->httpMock->expects($this->once())
             ->method('execute')
@@ -63,6 +68,11 @@ class ClientTest extends TestCase
     {
         //Given
         $request = new Request('GET', 'http://api.com');
+
+        $this->requestCheckerMock->expects($this->once())
+            ->method('check')
+            ->with($request)
+            ->willReturn(true);
 
         $this->httpMock->expects($this->once())
             ->method('execute')
