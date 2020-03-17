@@ -8,5 +8,4 @@ interface AuthorizationInterface
 {
 
     public function auth(HttpInterface $http): void;
-
 }

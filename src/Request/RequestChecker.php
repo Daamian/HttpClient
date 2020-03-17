@@ -33,5 +33,4 @@ class RequestChecker
 
         return true;
     }
-
 }

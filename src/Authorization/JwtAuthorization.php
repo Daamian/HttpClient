@@ -19,5 +19,4 @@ class JwtAuthorization implements AuthorizationInterface
     {
         $http->addHeader('Authorization', 'Bearer '.$this->token);
     }
-
 }

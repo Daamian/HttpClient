@@ -51,11 +51,6 @@ class Curl implements HttpInterface
         return $this->statusCode;
     }
 
-    public function getHeaders(): array
-    {
-        return $this->headers;
-    }
-
     /**
      * @inheritDoc
      */
@@ -75,6 +70,4 @@ class Curl implements HttpInterface
 
         return $result;
     }
-
-
 }

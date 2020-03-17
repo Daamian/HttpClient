@@ -21,6 +21,4 @@ interface HttpInterface
      * @throws HttpExecuteException When request failed
      */
     public function execute(): string;
-
-
 }

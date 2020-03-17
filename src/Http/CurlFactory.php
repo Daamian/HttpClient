@@ -11,5 +11,4 @@ class CurlFactory implements FactoryInterface
     {
         return new Curl();
     }
-
 }

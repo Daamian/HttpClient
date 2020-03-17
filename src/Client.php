@@ -73,5 +73,4 @@ class Client implements ClientInterface
             }
         }
     }
-
 }

@@ -3,12 +3,12 @@
 
 namespace Daamian\HttpClient\Exception;
 
-
 use Psr\Http\Client\RequestExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 use Throwable;
+use Exception;
 
-class RequestException extends \Exception implements RequestExceptionInterface
+class RequestException extends Exception implements RequestExceptionInterface
 {
     private RequestInterface $request;
 
@@ -22,5 +22,4 @@ class RequestException extends \Exception implements RequestExceptionInterface
     {
         return $this->request;
     }
-
 }

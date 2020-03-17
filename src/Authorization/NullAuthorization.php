@@ -10,5 +10,4 @@ class NullAuthorization implements AuthorizationInterface
     public function auth(HttpInterface $http): void
     {
     }
-
 }

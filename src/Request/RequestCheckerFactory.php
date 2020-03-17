@@ -3,7 +3,6 @@
 
 namespace Daamian\HttpClient\Request;
 
-
 use Daamian\HttpClient\FactoryInterface;
 
 class RequestCheckerFactory implements FactoryInterface
@@ -13,5 +12,4 @@ class RequestCheckerFactory implements FactoryInterface
     {
         return new RequestChecker();
     }
-
 }

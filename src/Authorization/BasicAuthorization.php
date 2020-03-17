@@ -21,5 +21,4 @@ class BasicAuthorization implements AuthorizationInterface
     {
         $http->addHeader('Authorization', 'Basic '.base64_encode("$this->username:$this->password"));
     }
-
 }

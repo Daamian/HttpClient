@@ -13,5 +13,4 @@ class ClientFactory implements FactoryInterface
     {
         return new Client(CurlFactory::create(), RequestCheckerFactory::create());
     }
-
 }
