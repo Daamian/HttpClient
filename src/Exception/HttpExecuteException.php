@@ -2,7 +2,9 @@
 
 namespace Daamian\HttpClient\Exception;
 
-class HttpExecuteException extends \Exception
+use \Exception;
+
+class HttpExecuteException extends Exception
 {
 
 }
