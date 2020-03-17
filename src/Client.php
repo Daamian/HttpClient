@@ -21,11 +21,12 @@ class Client implements ClientInterface
 
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
-        $result = $this->http->setUrl($request->getUri())
+        $this->http->setUrl($request->getUri())
             ->setMethod($request->getMethod())
             ->setBody($request->getBody()->__toString())
-            ->setHeaders($this->mapHeaders($request->getHeaders()))
-            ->execute();
+            ->setHeaders($this->mapHeaders($request->getHeaders()));
+
+        $result = $this->http->execute();
 
         return new Response($this->http->getStatusCode(), [], $result);
     }

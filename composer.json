@@ -18,9 +18,9 @@
     ],
     "require": {
         "php": "~7.4",
+        "ext-curl": "*",
         "nyholm/psr7": "^1.2",
-        "psr/http-client": "^1.0",
-        "ext-curl": "*"
+        "psr/http-client": "^1.0"
     },
     "require-dev": {
         "php-mock/php-mock": "^2.2",

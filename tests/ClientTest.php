@@ -33,23 +33,23 @@ class ClientTest extends TestCase
             'Body'
         );
 
+        $response = 'Response';
         $this->httpMock->expects($this->once())
             ->method('execute')
-            ->willReturn('Response');
+            ->willReturn($response);
 
         $this->httpMock->expects($this->once())
             ->method('getStatusCode')
             ->willReturn(200);
 
         //Expected
-        $responseExpected = new Response(200, [], 'Response');
+        $responseExpected = new Response(200, [], $response);
 
         //When
         $response = $this->client->sendRequest($request);
 
         //Then
-        $this->assertEquals($responseExpected, $response);
-
+        $this->assertEquals($responseExpected->getBody()->__toString(), $response->getBody()->__toString());
     }
 
 
