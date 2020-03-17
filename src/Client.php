@@ -35,6 +35,10 @@ class Client implements ClientInterface
         $this->authorization = $authorization;
     }
 
+    /**
+     * @inheritDoc
+     * @throws RequestException Exception for when Request is invalid
+     */
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
         if (false === $this->requestChecker->check($request)) {
