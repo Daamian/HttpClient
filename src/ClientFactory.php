@@ -2,7 +2,7 @@
 
 namespace Daamian\HttpClient;
 
-use Daamian\HttpClient\Http\CurlFactory;
+use Daamian\HttpClient\Http\Curl\CurlFactory;
 use Daamian\HttpClient\Request\RequestCheckerFactory;
 use Psr\Http\Client\ClientInterface;
 

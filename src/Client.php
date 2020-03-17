@@ -53,7 +53,7 @@ class Client implements ClientInterface
             throw new ClientException($exception->getMessage());
         }
 
-        return new Response($this->http->getStatusCode(), [], $result);
+        return new Response($result->getStatusCode(), $result->getHeaders(), $result->getBody());
     }
 
 

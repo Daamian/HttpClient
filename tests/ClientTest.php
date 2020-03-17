@@ -4,6 +4,7 @@
 namespace Daamian\HttpClient;
 
 use Daamian\HttpClient\Exception\HttpExecuteException;
+use Daamian\HttpClient\Http\Curl\CurlResult;
 use Daamian\HttpClient\Http\HttpInterface;
 use Daamian\HttpClient\Request\RequestChecker;
 use Nyholm\Psr7\Request;
@@ -44,23 +45,21 @@ class ClientTest extends TestCase
             ->with($request)
             ->willReturn(true);
 
-        $response = 'Response';
+        $response = new CurlResult(200, 'body', ['HEADER' => 'HEADER_CONTENT']);
         $this->httpMock->expects($this->once())
             ->method('execute')
             ->willReturn($response);
 
-        $this->httpMock->expects($this->once())
-            ->method('getStatusCode')
-            ->willReturn(200);
-
         //Expected
-        $responseExpected = new Response(200, [], $response);
+        $responseExpected = new Response(200, ['HEADER' => 'HEADER_CONTENT'], 'body');
 
         //When
         $response = $this->client->sendRequest($request);
 
         //Then
-        $this->assertEquals($responseExpected->getBody()->__toString(), $response->getBody()->__toString());
+        $this->assertSame($responseExpected->getBody()->__toString(), $response->getBody()->__toString());
+        $this->assertSame($responseExpected->getStatusCode(), $response->getStatusCode());
+        $this->assertSame($responseExpected->getHeaders(), $response->getHeaders());
     }
 
 
@@ -106,7 +105,6 @@ class ClientTest extends TestCase
 
         //When
         $this->client->sendRequest($request);
-
     }
 
 

@@ -1,10 +1,7 @@
 <?php
 
-
 namespace Daamian\HttpClient\Http;
 
-
-use Daamian\HttpClient\Authorization\BasicAuthorization;
 use Daamian\HttpClient\Authorization\JwtAuthorization;
 use PHPUnit\Framework\TestCase;
 

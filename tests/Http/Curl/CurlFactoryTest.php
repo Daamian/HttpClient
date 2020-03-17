@@ -1,7 +1,6 @@
 <?php
 
-namespace Daamian\HttpClient\Http;
-
+namespace Daamian\HttpClient\Http\Curl;
 
 use PHPUnit\Framework\TestCase;
 

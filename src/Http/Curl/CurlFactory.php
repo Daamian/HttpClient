@@ -1,6 +1,6 @@
 <?php
 
-namespace Daamian\HttpClient\Http;
+namespace Daamian\HttpClient\Http\Curl;
 
 use Daamian\HttpClient\FactoryInterface;
 
