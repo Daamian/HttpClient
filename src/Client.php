@@ -4,7 +4,6 @@ namespace Daamian\HttpClient;
 
 use Daamian\HttpClient\Authorization\AuthorizationInterface;
 use Daamian\HttpClient\Authorization\NullAuthorization;
-use Daamian\HttpClient\Http\Curl;
 use Daamian\HttpClient\Http\HttpInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
